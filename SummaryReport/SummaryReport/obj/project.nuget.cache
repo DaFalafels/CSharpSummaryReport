@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "soBjfHDYehM=",
+  "success": true,
+  "projectFilePath": "/home/omark/Documents/Savage Data Systems/Interview Assignment/SummaryReport/SummaryReport/SummaryReport.csproj",
+  "expectedPackageFiles": [
+    "/home/omark/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.6/microsoft.aspnetcore.app.ref.8.0.6.nupkg.sha512"
+  ],
+  "logs": []
+}

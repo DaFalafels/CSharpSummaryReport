@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 
 namespace SummaryReport
 {
@@ -13,7 +13,7 @@ namespace SummaryReport
                 bool checkHeader    = true;
                 var salesPersons    = new Dictionary<string, float>();
                 var regions         = new Dictionary<string, Dictionary<string, float>>();
-                var regionDates     = new Dictionary<string, ArrayList>();
+                var regionDates     = new Dictionary<string, Dictionary<DateTime, float>>();
 
                 while (!reader.EndOfStream) {
                     string line = reader.ReadLine();
@@ -64,9 +64,10 @@ namespace SummaryReport
                                         regions.Add(parsedLine[part], new Dictionary<string, float>());
 
                                     if (!regionDates.ContainsKey(parsedLine[part]))
-                                        regionDates.Add(parsedLine[part], new ArrayList());
+                                        regionDates.Add(parsedLine[part], new Dictionary<DateTime, float>());
 
-                                    regionDates[parsedLine[part]].Add(currentDate);
+                                    if (!regionDates[parsedLine[part]].ContainsKey(currentDate))
+                                        regionDates[parsedLine[part]].Add(currentDate, 0.0f);
 
                                     currentRegion = parsedLine[part];
 
@@ -108,6 +109,8 @@ namespace SummaryReport
                                     salesPersons[currentSalesPerson] += totalSales;
 
                                     regions[currentRegion][currentProduct] += totalSales;
+
+                                    regionDates[currentRegion][currentDate] += totalSales;
                                     
                                     break;
 
@@ -121,36 +124,45 @@ namespace SummaryReport
                         checkHeader = false;
                 }
 
-            // Solution to Problem #1
-            Console.WriteLine("Total Sales per Salesperson: ");
-            foreach (var salesPerson in salesPersons)
-                Console.WriteLine("- {0}: ${1}", salesPerson.Key, salesPerson.Value);
+                // Solution to Problem #1
+                Console.WriteLine("Total Sales per Salesperson: ");
+                foreach (var salesPerson in salesPersons)
+                    Console.WriteLine("- {0}: ${1}", salesPerson.Key, salesPerson.Value);
 
-            Console.WriteLine(System.Environment.NewLine);
+                Console.WriteLine(System.Environment.NewLine);
 
-            // Solution to Problem #2
-            Console.WriteLine("Top-Selling Product in Each Region: ");
-            foreach (var region in regions) {
-                string topProduct   = "";
-                float topSales      = 0.0f;
+                // Solution to Problem #2
+                Console.WriteLine("Top-Selling Product in Each Region: ");
+                foreach (var region in regions) {
+                    string topProduct   = "";
+                    float topSales      = 0.0f;
 
-                foreach(var product in region.Value) {
-                    if (topSales < product.Value) {
-                        topProduct  = product.Key;
-                        topSales    = product.Value;
-                    }
-                } 
-            
-                Console.WriteLine("- {0}: {1}", region.Key, topProduct);
-            }
+                    foreach(var product in region.Value) {
+                        if (topSales < product.Value) {
+                            topProduct  = product.Key;
+                            topSales    = product.Value;
+                        }
+                    } 
+                
+                    Console.WriteLine("- {0}: {1}", region.Key, topProduct);
+                }
 
-            Console.WriteLine(System.Environment.NewLine);
+                Console.WriteLine(System.Environment.NewLine);
 
-            // Solution to Problem #3
-            Console.WriteLine("Average Sales per Day in Each Region: ");
-            foreach (var regionDate in regionDates)          
-                Console.WriteLine("- {0}: {1}", regionDate.Key, regionDate.Value.Count);
-            
+                // Solution to Problem #3
+                Console.WriteLine("Average Sales per Day in Each Region: ");
+                foreach (var region in regionDates) {
+                    float totalSale     = 0.0f;
+                    float averageSale   = 0.0f;
+
+                    foreach (var date in region.Value)
+                        totalSale += date.Value;
+
+                    averageSale = totalSale/region.Value.Count;
+
+                    Console.WriteLine("- {0}: ${1}", region.Key, averageSale);
+                }
+
             } else {
                 Console.WriteLine("The file does not exist! Please place the file in the proper path: '../CodeChallenge.csv'");
                 return;

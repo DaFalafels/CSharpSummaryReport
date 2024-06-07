@@ -24,5 +24,8 @@
  - Top-selling product in each region.
  - Average sales per day in each region.
 
+### Summary report output example:
+![screenshot of the summary report output of the program](https://github.com/DaFalafels/CSharpSummaryReport/assets/61887336/e5d81c06-4573-4133-a6e2-5fd586092884)
+
 > [!NOTE]
 > For the code, please click [here](SummaryReport/SummaryReport/Program.cs).

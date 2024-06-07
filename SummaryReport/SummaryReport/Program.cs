@@ -161,12 +161,12 @@ namespace SummaryReport
                     averageSale = totalSale/region.Value.Count;
 
                     Console.WriteLine("- {0}: ${1}", region.Key, averageSale);
-                }
+                } 
 
-            } else {
+            } else
                 Console.WriteLine("The file does not exist! Please place the file in the proper path: '../CodeChallenge.csv'");
-                return;
-            }
+                
+            return;
         }
     }
 }

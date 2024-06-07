@@ -1,4 +1,4 @@
-# CSharpSummaryReport
+# C# Summary Report
 ### This program analyzes sales data from a CSV file (CodeChallenge.csv), and produces a summary report. The CSV file contains the following columns:
 
 **Date:** The date of the sale. (format: YYYY-MM-DD)
